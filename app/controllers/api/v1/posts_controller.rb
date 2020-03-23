@@ -29,6 +29,6 @@ class Api::V1::PostsController < ApplicationController
    private
 
    def post_params
-    params.require(:post).permit(:date, :content1, :content2, :content3)
+    params.require(:post).permit(:date, :content1, :content2, :content3, :likes)
    end
 end
