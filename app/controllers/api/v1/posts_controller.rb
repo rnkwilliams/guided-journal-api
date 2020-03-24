@@ -10,8 +10,14 @@ class Api::V1::PostsController < ApplicationController
     end
 
     def create
-        @post = Post.create(post_params)
-        render json: @post, status: 200
+        @post = Post.new(post_params)
+
+        if @post.save
+            render json: @post, status: 200
+        else
+            render json: @post.errors, status: :unprocessable_entity
+        end
+        
     end
 
     def update
