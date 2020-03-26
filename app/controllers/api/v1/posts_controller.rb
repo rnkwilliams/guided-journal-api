@@ -10,9 +10,12 @@ class Api::V1::PostsController < ApplicationController
     end
 
     def create
-        @post = Post.new(post_params)
+        @category = Category.find_by(id: post_params["category_id"])
 
-        if @post.save
+        @post = Post.new(post_params)
+        @post.category = @category
+
+        if @post.save!
             render json: @post, status: 200
         else
             render json: @post.errors, status: :unprocessable_entity
@@ -35,6 +38,6 @@ class Api::V1::PostsController < ApplicationController
    private
 
    def post_params
-    params.require(:post).permit(:date, :content1, :content2, :content3, :likes)
+    params.require(:post).permit(:category_id, :date, :content1, :content2, :content3, :likes)
    end
 end
