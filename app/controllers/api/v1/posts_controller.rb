@@ -1,29 +1,29 @@
 class Api::V1::PostsController < ApplicationController
     def index
         posts = Post.all
-        options = {include: [:category]}
-        render json: PostSerializer.new(posts, options)
+        #options = {include: [:category]}
+        render json: PostSerializer.new(posts)
     end
 
     def show
-        options = {include: [:category]}
+        #options = {include: [:category]}
         post = Post.find_by(id: params[:id])
         if post
-            render json: PostSerializer.new(post, options)
+            render json: PostSerializer.new(post)
         else
             render json: {message: 'Post not found'}
         end
     end
 
     def create
-        options = {include: [:category]}
+        #options = {include: [:category]}
         category = Category.find_by(id: post_params["category_id"])
 
         post = Post.new(post_params)
         post.category = category
 
         if post.save!
-            render json: PostSerializer.new(post, options)
+            render json: PostSerializer.new(post)
         else
             render json: {message: 'Post did not save'}
         end  
@@ -44,6 +44,6 @@ class Api::V1::PostsController < ApplicationController
    private
 
    def post_params
-    params.require(:post).permit(:category_id, :date, :content1, :content2, :content3, :likes)
+    params.require(:post).permit(:category_id, :content1, :content2, :content3)
    end
 end
